@@ -42,158 +42,6 @@ setInterval(function() {
 });
 
 
-//------------Seviye-------------------//
-client.on("message", async message => {
-  let prefix = ayarlar.prefix;
-
-  var id = message.author.id;
-  var gid = message.guild.id;
-
-  let hm = await db.fetch(`seviyeacik_${gid}`);
-  let kanal = await db.fetch(`svlog_${gid}`);
-  let xps = await db.fetch(`verilecekxp_${gid}`);
-  let seviyerol = await db.fetch(`svrol_${gid}`);
-  let rollvl = await db.fetch(`rollevel_${gid}`);
-
-  if (!hm) return;
-  if (message.content.startsWith(prefix)) return;
-  if (message.author.bot) return;
-
-  var xp = await db.fetch(`xp_${id}_${gid}`);
-  var lvl = await db.fetch(`lvl_${id}_${gid}`);
-  var xpToLvl = await db.fetch(`xpToLvl_${id}_${gid}`);
-
-  if (!lvl) {
-    if (xps) {
-      db.set(`xp_${id}_${gid}`, xps);
-    }
-    db.set(`xp_${id}_${gid}`, 4);
-    db.set(`lvl_${id}_${gid}`, 1);
-    db.set(`xpToLvl_${id}_${gid}`, 100);
-  } else {
-    if (xps) {
-      db.add(`xp_${id}_${gid}`, xps);
-    }
-    db.add(`xp_${id}_${gid}`, 4);
-
-    if (xp > xpToLvl) {
-      db.add(`lvl_${id}_${gid}`, 1);
-      db.add(
-        `xpToLvl_${id}_${gid}`,
-        (await db.fetch(`lvl_${id}_${gid}`)) * 100
-      );
-
-      if (kanal) {
-        client.channels.cache
-          .get(kanal.id)
-          .send(
-            message.member.user.username +
-              " Seviye Atladı! Yeni seviyesi** " +
-              lvl +
-              " **Tebrikler! "
-          );
-      }
-    }
-
-    if (seviyerol) {
-      if (lvl >= rollvl) {
-        message.guild.member(message.author.id).roles.add(seviyerol);
-        if (kanal) {
-          client.channels.cache
-            .get(kanal.id)
-            .send(
-              message.member.user.username +
-                " Yeni Seviyesi** " +
-                rollvl +
-                " **ve** " +
-                seviyerol +
-                " **Rolünü kazandı!"
-            );
-        }
-      }
-    }
-  }
-});
-/////////////////////////////////////////seviye////////////////////////////////////
-
-client.on("message", async msg => {
-  if (msg.channel.type === "dm") return;
-  if (msg.author.bot) return;
-  if (msg.content.length > 4) {
-    if (db.fetch(`capslock_${msg.guild.id}`)) {
-      let caps = msg.content.toUpperCase();
-      if (msg.content == caps) {
-        if (!msg.member.hasPermission("ADMINISTRATOR")) {
-          if (!msg.mentions.users.first()) {
-            msg.delete();
-            return msg.channel
-              .send(`Caps Locku Kapatırmısın`)
-              .then(m => m.delete(3000));
-          }
-        }
-      }
-    }
-  }
-});
-
-/// OTOROL SİSTEMİ
-
-client.on("guildMemberAdd", async member => {
-  let kanal = await db.fetch(`otoRK_${member.guild.id}`);
-  let rol = await db.fetch(`otoRL_${member.guild.id}`);
-  let mesaj = db.fetch(`otoRM_${member.guild.id}`);
-  if (!rol) return;
-
-  if (!mesaj) {
-    client.channels.cache.get(kanal).send("<a:hypesquad1:750076071721828452> `" + member.user.username + "`** Hoş Geldin! Otomatik Rolün Verildi Seninle Beraber** `" + member.guild.memberCount + "` **Kişiyiz!**");
-    return member.roles.add(rol);
-  }
-
-  if (mesaj) {
-    var mesajs = mesaj.replace("-uye-", `${member.user}`).replace("-uyetag-", `${member.user.tag}`).replace("-rol-", `${member.guild.roles.cache.get(rol).name}`).replace("-server-", `${member.guild.name}`).replace("-uyesayisi-", `${member.guild.memberCount}`).replace("-botsayisi-", `${member.guild.members.cache.filter(m => m.user.bot).size}`).replace("-bolge-", `${member.guild.region}`).replace("-kanalsayisi-", `${member.guild.channels.cache.size}`);
-    member.roles.add(rol);
-    return client.channels.cache.get(kanal).send(mesajs);
-     }
-});
-
-client.on('message', async msg => {
-  let ozelkomut = await db.fetch(`sunucuKomut_${msg.guild.id}`);
-  let ozelkomutYazi;
-  if (ozelkomut == null) ozelkomutYazi = 'Burayı silme yoksa hatalı olur'
-  else ozelkomutYazi = ''+ ozelkomut +''
-  if (msg.content.toLowerCase() === ozelkomutYazi) {
-      let mesaj = await db.fetch(`sunucuMesaj_${msg.guild.id}`);
-  let mesajYazi;
-  if (mesaj == null) mesajYazi = 'Burayı silme yoksa hatalı olur'
-  else mesajYazi = ''+ mesaj +''
-    msg.channel.send(mesajYazi)
-  }
-});
-
-
-
-////SAYAÇ SİSTEMİ////
-client.on("guildMemberAdd", member => {
-var kanal = db.fetch(`sayackanali_${member.guild.id}`)
-if(!kanal) return;
-var hedef = db.fetch(`sayachedef_${member.guild.id}`)
-if(!hedef) return;
-client.channels.cache.get(kanal).send(`${member} Sunucuya katıldı! Hedefimize ulaşmamıza ${hedef - member.guild.memberCount} kişi kaldı!`)
-if(hedef <= member.guild.memberCount){
-  client.channels.cache.get(kanal).send(`Hedefimizi başardık! Sunucumuz ${hedef} kişiye ulaştı!`)
-  db.delete(`sayackanali_${member.guild.id}`)
-  db.delete(`sayachedef_${member.guild.id}`)
-}
-})
-client.on("guildMemberRemove", member => {
-var kanal = db.fetch(`sayackanali_${member.guild.id}`)
-if(!kanal) return;
-var hedef = db.fetch(`sayachedef_${member.guild.id}`)
-if(!hedef) return;
-client.channels.cache.get(kanal).send(`${member.user.tag} sunucudan ayrıldı! Hedefimize ulaşmamıza ${hedef - member.guild.memberCount} kişi kaldı!`)
-})
-////SAYAÇ SİSTEMİ////
-
 
 client.on("message", message => {
   let client = message.client;
@@ -214,102 +62,15 @@ client.on("message", message => {
   }
 });
 
-client.on("message", async  msg => {
- var i = await db.fetch(`küfür_${msg.guild.id}`)
-    if (i == 'acik') {
-       const küfür = ["oç","ojs","oj","orosbu", "sikeyto", "sikim", "Oruspu", "Sikik", "Amk", "Sokim", "pornoya koyim", "sikey", "peç", "orospu çocuğu","orospu","sikim","sikeyim","siktir","piç","am","amcık","pij","götünü","göt","sg","amk","Amk","yarrak"];
-        if (küfür.some(word => msg.content.includes(word))) {
-          try {
-            if (!msg.member.hasPermission("BAN_MEMBERS")) {
-                  msg.delete();
-                    return msg.reply('Bu Sunucuda Küfür Engelleme Filtresi Aktiftir. Küfür Yapmana İzin Veremem !').then(msg => msg.delete(3000));
-    
-
-  msg.delete(3000);                              
-
-            }              
-          } catch(err) {
-            console.log(err);
-          }
-        }
-    }
-    else if (i == 'kapali') {
-      
-    }
-    if (!i) return;
-  })
-  ;
-
- client.on("guildMemberRemove", async member => {
-  
-    if (db.has(`gçkanal_${member.guild.id}`) === false) return;
-    var canvaskanal = member.guild.channels.cache.get(db.fetch(`gçkanal_${member.guild.id}`));
-    if (!canvaskanal) return;
-  
-    const request = require("node-superfetch");
-    const Canvas = require("canvas"),
-      Image = Canvas.Image,
-      Font = Canvas.Font,
-      path = require("path");
-  
-    var randomMsg = ["Sunucudan Ayrıldı."];
-    var randomMsg_integer =
-      randomMsg[Math.floor(Math.random() * randomMsg.length)];
-  
-    let msj = await db.fetch(`cikisM_${member.guild.id}`);
-    if (!msj) msj = `{uye}, ${randomMsg_integer}`;
-  
-    const canvas = Canvas.createCanvas(640, 360);
-    const ctx = canvas.getContext("2d");
-  
-    const background = await Canvas.loadImage(
-      "https://i.hizliresim.com/Wrn1XW.jpg"
-    );
-    ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-  
-    ctx.strokeStyle = "#74037b";
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-  
-    ctx.fillStyle = `#D3D3D3`;
-    ctx.font = `37px "Warsaw"`;
-    ctx.textAlign = "center";
-    ctx.fillText(`${member.user.username}`, 300, 342);
-  
-    let avatarURL = member.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 });
-    const { body } = await request.get(avatarURL);
-    const avatar = await Canvas.loadImage(body);
-  
-    ctx.beginPath();
-    ctx.lineWidth = 4;
-    ctx.fill();
-    ctx.lineWidth = 4;
-    ctx.arc(250 + 55, 55 + 55, 55, 0, 2 * Math.PI, false);
-    ctx.clip();
-    ctx.drawImage(avatar, 250, 55, 110, 110);
-  
-    const attachment = new Discord.MessageAttachment(
-      canvas.toBuffer(),
-      "ro-BOT-güle-güle.png"
-    );
-  
-      canvaskanal.send(attachment);
-      canvaskanal.send(
-        msj.replace("{uye}", member).replace("{sunucu}", member.guild.name)
-      );
-      if (member.user.bot)
-        return canvaskanal.send(`🤖 Bu bir bot, ${member.user.tag}`);
-    
-  });
-
 
 
 //-------------Bot Eklenince Bir Kanala Mesaj Gönderme Komutu ---------------\\
 
 const embed = new Discord.MessageEmbed()
 .setThumbnail()
-.addField(`MRTERN | ELS`, `**Selamlar, Ben Ellunati (Elrex'in Geliştiricisi) Öncelikle Botumuzu Eklediğiniz ve Bize Destek Olduğunuz İçin Sizlere Teşekkürlerimi Sunarım**`)
-.addField(`Elrex | Yardım Menüsü`, `**el!yardım yazarak tüm komutlarımıza bakabilirsin**`)
-.setFooter(`Elrex | Mutlu Bir Nefes| 2021`)
+.addField(`MRTERN | ELS`, `**Selamlar, Ben Ellunati (Elrex'in Geliştiricisi) Öncelikle Alt Yapımızı Tercih Ettiğiniz İçin Teşşekür Ederim**`)
+.addField(`MRTERN | BILGI`, `**ALT YAPI v12 ve 10 tane komut bulunmaktadır gerisine bakın kendiniz :wink: **`)
+.setFooter(`MRTERN | Mutlu Bir Nefes| 2021`)
 .setTimestamp();
 
 
@@ -368,22 +129,6 @@ client.on("message", async message => {
 
 });
 
-///////rolkoruma
-client.on("roleDelete", async role => {
-  let rol = await db.fetch(`rolk_${role.guild.id}`);
-  if (rol) { 
-         const entry = await role.guild.fetchAuditLogs({ type: "ROLE_DELETE" }).then(audit => audit.entries.first());
-    if (entry.executor.id == client.user.id) return;
-  role.guild.roles.create({ data: {
-          name: role.name,
-          color: role.color,
-          hoist: role.hoist,
-          permissions: role.permissions,
-          mentionable: role.mentionable,
-          position: role.position
-}, reason: 'Rol koruma açık olduğundan yetkili tarafından silinen rol tekrar açıldı.'})
-  }
-})
 
 //////////////////////////MODLOG///////////////////
 client.on("messageDelete", async message => {

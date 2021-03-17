@@ -23,6 +23,8 @@ let yardım = new Discord.MessageEmbed()
 🔔 **${prefix}ban** : Etiketlediğiniz Kullancıyı Sunucudan Yasaklar
 🔔 **${prefix}prefix** : Prefix Değiştirir
 🔔 **${prefix}bakım** : Botu Bakıma Alırsınız (Sadece bot sahibi kullanabilir)
+🔔 **${prefix}sil** : Mesaj silersiniz (max 300)
+🔔 **${prefix}temizle** : Mesaj silersiniz (max 300)
 ===============================================
 `)
   .addField("**» Davet Linki**", " [Botu Davet Et](https://discord.com/api/oauth2/authorize?client_id=787328444954050570&permissions=8&scope=bot)", )
