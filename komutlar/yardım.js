@@ -28,7 +28,7 @@ let yardım = new Discord.MessageEmbed()
 ===============================================
 `)
   .addField("**» Davet Linki**", " [Botu Davet Et](https://discord.com/api/oauth2/authorize?client_id=787328444954050570&permissions=8&scope=bot)", )
-    .setImage("https://cdn.discordapp.com/attachments/788673281455685653/810117778613731328/standard.gif")
+    .setImage("https://cdn.discordapp.com/attachments/821825276232728576/821831310213382264/standard.gif")
 .setFooter(`${message.author.tag} Tarafından İstendi.`, message.author.avatarURL())
 .setThumbnail(client.user.avatarURL())
  message.channel.send(yardım) 
