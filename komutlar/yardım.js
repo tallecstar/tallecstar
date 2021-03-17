@@ -14,7 +14,7 @@ if(db.fetch(`bakimmod`)) {
 
 let yardım = new Discord.MessageEmbed()  
 .setColor('RANDOM')
-.addField('Murat-Eren Abone Rol Menüsü',`
+.addField('Murat-Eren Yardım Menüsü',`
 ==============================================
 🔔 **${prefix}abone-yetkili-rol** : Abone Yetkilisini Seçer.
 🔔 **${prefix}abone-rol** : Vericeğiniz Rolü ayarlarsınız.
@@ -25,6 +25,9 @@ let yardım = new Discord.MessageEmbed()
 🔔 **${prefix}bakım** : Botu Bakıma Alırsınız (Sadece bot sahibi kullanabilir)
 🔔 **${prefix}sil** : Mesaj silersiniz (max 300)
 🔔 **${prefix}temizle** : Mesaj silersiniz (max 300)
+🔔 **${prefix}sohbet-aç** : Sohbeti açarsınız
+🔔 **${prefix}sohbet-kapat** : Sohbeti kapatırsınız
+🔔 **${prefix}patlat** : Kanalı havaya uçurursunuz
 ===============================================
 `)
   .addField("**» Davet Linki**", " [Botu Davet Et](https://discord.com/api/oauth2/authorize?client_id=787328444954050570&permissions=8&scope=bot)", )
