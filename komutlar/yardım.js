@@ -9,12 +9,21 @@ if(db.fetch(`bakimmod`)) {
 
 }
 
-let prefix = 'el!'
+  let prefix = (await db.fetch(`prefix_${message.guild.id}`)) || "m!";
+  const embed = new Discord.MessageEmbed()
+
 let yardım = new Discord.MessageEmbed()  
 .setColor('RANDOM')
-.addField('Murat Eren Yardım Menüsü',`
-🔔 **${prefix}Ban** : Etiketlenen kişiyi yasaklarsın
-🔔 **${prefix}boş** : BOŞ`)
+.addField('Murat-Eren Abone Rol Menüsü',`
+========================MODERASYON==================
+🔔 **${prefix}abone-yetkili-rol** : Abone Yetkilisini Seçer.
+🔔 **${prefix}abone-rol** : Vericeğiniz Rolü ayarlarsınız.
+🔔 **${prefix}abone-log** : Log mesajınn gitceği yer seçilir.
+========================MODERASYON==================
+🔔 **${prefix}ban** : Etiketlediğiniz Kullancıyı Sunucudan Yasaklar
+🔔 **${prefix}prefix** : Prefix Değiştirir
+🔔 **${prefix}bakım** : Botu Bakıma Alırsınız (Sadece bot sahibi kullanabilir)
+`)
   .addField("**» Davet Linki**", " [Botu Davet Et](https://discord.com/api/oauth2/authorize?client_id=787328444954050570&permissions=8&scope=bot)", )
     .setImage("https://cdn.discordapp.com/attachments/788673281455685653/810117778613731328/standard.gif")
 .setFooter(`${message.author.tag} Tarafından İstendi.`, message.author.avatarURL())
@@ -31,6 +40,6 @@ exports.conf = {
 
 exports.help = {
   name: "yardım",
-  category: "Yardım menüsü Kısa ve öz",
-    description: "yardımcık"
+  category: "abone-yardım",
+    description: "Eğlence Komutları Gösterir."
 };
