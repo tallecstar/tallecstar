@@ -307,7 +307,7 @@ client.on("message", async  msg => {
 
 const embed = new Discord.MessageEmbed()
 .setThumbnail()
-.addField(`Elrex | ELS`, `**Selamlar, Ben Ellunati (Elrex'in Geliştiricisi) Öncelikle Botumuzu Eklediğiniz ve Bize Destek Olduğunuz İçin Sizlere Teşekkürlerimi Sunarım**`)
+.addField(`MRTERN | ELS`, `**Selamlar, Ben Ellunati (Elrex'in Geliştiricisi) Öncelikle Botumuzu Eklediğiniz ve Bize Destek Olduğunuz İçin Sizlere Teşekkürlerimi Sunarım**`)
 .addField(`Elrex | Yardım Menüsü`, `**el!yardım yazarak tüm komutlarımıza bakabilirsin**`)
 .setFooter(`Elrex | Mutlu Bir Nefes| 2021`)
 .setTimestamp();
@@ -328,54 +328,6 @@ defaultChannel.send(embed)
 
 });
 
-// DAVET SİSTEMİ
-
-client.on("guildMemberAdd", async member => {
-  const kanal = await db.fetch(`sayacK_${member.guild.id}`);
-  if (!kanal) return;
-  const sayaç = await db.fetch(`sayacS_${member.guild.id}`);
-    const sonuç = sayaç - member.guild.memberCount;
-  const mesaj = await db.fetch(`sayacHG_${member.guild.id}`)
-    ///....
-
-  ///....
-  if (!mesaj) {
-    return client.channels.cache.get(kanal).send("<a:hypesquad1:750076071721828452> `"+ member.user.username + "`**Adlı Kullanıcı Aramıza Katıldı!** `" + sayaç + "` **Kişi Olmamıza** `" + sonuç + "` **Kişi Kaldı.** `" + member.guild.memberCount + "` **Kişiyiz!**");
-  }
-
-  if (member.guild.memberCount == sayaç) {
-    return client.channels.get(kanal).send(`<a:hypesquad1:750076071721828452> **Sayaç Sıfırlandı!** \`${member.guild.memberCount}\` **Kişiyiz!**`)
-    await db.delete(`sayacK_${member.guild.id}`)
-    await db.delete(`sayacS_${member.guild.id}`)
-    await db.delete(`sayacHG_${member.guild.id}`)
-    await db.delete(`sayacBB_${member.guild.id}`)
-  }
-  if (mesaj) {
-    const mesaj31 = mesaj.replace("-uyetag-", `${member.user.tag}`).replace("-server-", `${member.guild.name}`).replace("-uyesayisi-", `${member.guild.memberCount}`).replace("-botsayisi-", `${member.guild.members.filter(m => m.user.bot).size}`).replace("-bolge-", `${member.guild.region}`).replace("-kanalsayisi-", `${member.guild.channels.size}`).replace("-kalanuye-", `${sonuç}`).replace("-hedefuye-", `${sayaç}`)
-    return client.channels.cache.get(kanal).send(mesaj31);
-    
-  }
-});
-
-client.on("guildMemberRemove", async member => {
-
-  const kanal = await db.fetch(`sayacK_${member.guild.id}`);
-  const sayaç = await db.fetch(`sayacS_${member.guild.id}`);
-  const sonuç = sayaç - member.guild.memberCount;
-  const mesaj = await db.fetch(`sayacBB_${member.guild.id}`)
-  if (!kanal) return;
-  if (!sayaç) return;
-    ///....
-
-  if (!mesaj) {
-    return client.channels.cache.get(kanal).send("<a:hypesquad1:750076071721828452> `" + member.user.username + "` **Adlı Kullanıcı Aramızdan Ayrıldı.**`" + sayaç + "` **Kişi Olmamıza** `" + sonuç + "` **Kişi Kaldı.** `" + member.guild.memberCount + "` **Kişiyiz!**");
-      }
-
-  if (mesaj) {
-    const mesaj31 = mesaj.replace("-uye-", `${member.user.tag}`).replace("-server-", `${member.guild.name}`).replace("-uyesayisi-", `${member.guild.memberCount}`).replace("-botsayisi-", `${member.guild.members.filter(m => m.user.bot).size}`).replace("-bolge-", `${member.guild.region}`).replace("-kanalsayisi-", `${member.guild.channels.cache.size}`).replace("-kalanuye-", `${sonuç}`).replace("-hedefuye-", `${sayaç}`)
-    return client.channels.cache.get(kanal).send(mesaj31);
-  }
-});
 
 
 //----------------------------------------------------------------\\
