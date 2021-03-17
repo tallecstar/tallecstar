@@ -6,6 +6,7 @@ const db = require("quick.db");
 const chalk = require("chalk");
 const fetch = require("node-fetch");
 const moment = require("moment");
+const { GiveawaysManager } = require('discord-giveaways');
 const ayarlar = require("./ayarlar.json");
 const express = require("express");
 
@@ -41,6 +42,41 @@ setInterval(function() {
 });
 
 
+client.on("message", async message => {
+
+  if (message.author.bot) return;
+
+  if (!message.guild) return;
+
+  let prefix = db.get(`prefix_${message.guild.id}`);
+
+  if (prefix === null) prefix = prefix;
+
+  if (!message.content.startsWith(prefix)) return;
+
+  if (!message.member)
+
+  message.member = await message.guild.fetchMember(message);
+
+  const args = message.content
+
+    .slice(prefix.length)
+
+    .trim()
+
+    .split(/ +/g);
+
+  const cmd = args.shift().toLowerCase();
+
+  if (cmd.length === 0) return;
+  
+  let command = client.commands.get(cmd);
+
+  if (!command) command = client.commands.get(client.aliases.get(cmd));
+
+  if (command) command.run(client, message, args);
+
+});
 
 //-------------Bot Eklenince Bir Kanala Mesaj Gönderme Komutu ---------------\\
 
@@ -74,8 +110,8 @@ fs.readdir("./murateren/", (err, files) => {
 client.reload = command => {
   return new Promise((resolve, reject) => {
     try {
-      delete require.cache[require.resolve(`./komutlar/${command}`)];
-      let cmd = require(`./komutlar/${command}`);
+      delete require.cache[require.resolve(`./murateren/${command}`)];
+      let cmd = require(`./murateren/${command}`);
       client.commands.delete(command);
       client.aliases.forEach((cmd, alias) => {
         if (cmd === command) client.aliases.delete(alias);
@@ -94,7 +130,7 @@ client.reload = command => {
 client.load = command => {
   return new Promise((resolve, reject) => {
     try {
-      let cmd = require(`./komutlar/${command}`);
+      let cmd = require(`./murateren/${command}`);
       client.commands.set(command, cmd);
       cmd.conf.aliases.forEach(alias => {
         client.aliases.set(alias, cmd.help.name);
@@ -109,8 +145,8 @@ client.load = command => {
 client.unload = command => {
   return new Promise((resolve, reject) => {
     try {
-      delete require.cache[require.resolve(`./komutlar/${command}`)];
-      let cmd = require(`./komutlar/${command}`);
+      delete require.cache[require.resolve(`./murateren/${command}`)];
+      let cmd = require(`./murateren/${command}`);
       client.commands.delete(command);
       client.aliases.forEach((cmd, alias) => {
         if (cmd === command) client.aliases.delete(alias);

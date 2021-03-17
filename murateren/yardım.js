@@ -3,13 +3,8 @@ const Discord = require("discord.js"),
 
 exports.run = async (bot, message, args, tools) => {
 
-if(db.fetch(`bakimmod`)) {
 
-  if(message.author.id !== "683752128644251660") return message.channel.send('```Şuanlık Discord Botumuz Bakımdadır Lütfen Bir Kaç Saat Sonra Tekrar Deneyiniz Veya Ellunati#4909 Bana Ulaşın```')
-
-}
-
-  let prefix = (await db.fetch(`prefix_${message.guild.id}`)) || "el!";
+  let prefix = (await db.fetch(`prefix_${message.guild.id}`)) || "m!";
   const embed = new Discord.MessageEmbed()
   
   .setAuthor(`Komutlar`, message.author.avatarURL)
@@ -19,7 +14,7 @@ if(db.fetch(`bakimmod`)) {
 
   .addField("Tüm Komutlar (10)", `
 Sadece premium üyelerimizin kullanabileceği komutlar;
-\`${prefix}prefix\` \`${prefix}sunucu-tanıt\`  \`${prefix}duello\` \`${prefix}çekiliş-düzenle\` \`${prefix}seviye-xp\`
+\`${prefix}ban\`
 `)
 
  .addField("Bağlantılar", `
