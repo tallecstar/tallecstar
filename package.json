@@ -1,7 +1,7 @@
 {
-  "main": "murateren-ellunati.js",
+  "main": "bot.js",
   "scripts": {
-    "start": "node murateren-ellunati.js"
+    "start": "node bot.js"
   },
   "engines": {
     "node": "12.x"
