@@ -25,11 +25,9 @@ app.listen(process.env.PORT, () =>
 const bot = new Discord.Client();
 
 var oyun = [
-`✨ HELP ?! | el!yardım`,
+`✨ HELP m! | m!yardım`,
 `🚀 7/24 HIZMET  `,
-`🔔 20K Kullanıcı`,
-`⚡️ 25 Sunucu`,
-`🌟 Prefix | (el!)`
+`🌟 Prefix | (m!)`
 ]
   
 client.on("ready", () => {
