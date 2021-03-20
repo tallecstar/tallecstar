@@ -57,7 +57,7 @@ if(db.fetch(`bakimmod`)) {
      true
    )
     .setColor(`RANDOM`)
-    .setImage("https://cdn.discordapp.com/attachments/788673281455685653/810117778613731328/standard.gif")
+    .setImage("https://cdn.discordapp.com/attachments/821825276232728576/821831310213382264/standard.gif")
     .setFooter(`${client.user.username} Abone Sistemi`);
   message.guild.channels.cache.get(abonelog).send(embed);
 };
