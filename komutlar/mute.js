@@ -39,7 +39,7 @@ if (p) prefix = p;
   if(!sebep) sebep = 'Sebep Belirtilmemiş';
   let muterol = db.fetch(`muterol_${message.guild.id}`);
 if(!muterol) {
-  message.channel.send(`Lütfen bir muteli rol ayarlayın. Ayarlamak için el!muterol, yeni oluşturmak için ${prefix}muterololuştur`)
+  message.channel.send(`Lütfen bir muteli rol ayarlayın. Ayarlamak için !muterol, yeni oluşturmak için ${prefix}muterololuştur`)
 }
   let mutezaman = args[1]
     .replace(`sn`, `s`)
