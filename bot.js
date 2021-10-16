@@ -780,4 +780,4 @@ if (kufurler.some(word => msg.content.includes(word))) {
 else return;
 });
 
-client.login(process.env.token);
+client.login("ODk4ODI0NTAyNDYzNTYxNzQ4.YWp1jA.USE-eClAOB_wluOyM1-nT6TyGtg")
