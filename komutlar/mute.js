@@ -59,7 +59,7 @@ mutekisi.roles.add(muterol);
     .setColor(0x00AE86)
     .setTimestamp()
     .addField('Eylem:', '**Mute**') .addField('Kullanıcı:', `${mutekisi} (${mutekisi.id})`) .addField('Süre', args[1]) .addField('Sebep', sebep)
-      message.channel.send(embed);;
+      message.channel.send(embed);
 
   setTimeout(function() {
     mutekisi.roles.remove(muterol);
