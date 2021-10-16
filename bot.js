@@ -66,8 +66,8 @@ client.on("message", message => {
 
 const embed = new Discord.MessageEmbed()
 .setThumbnail()
-.addField(`MRTERN | ELS`, `**Selamlar, Ben Ellunati (Elrex'in Geliştiricisi) Öncelikle Alt Yapımızı Tercih Ettiğiniz İçin Teşşekür Ederim**`)
-.addField(`MRTERN | BILGI`, `**ALT YAPI v12 ve 10 tane komut bulunmaktadır gerisine bakın kendiniz :wink: **`)
+.addField(`MRTERN | ELS`, `**Selamlar, Ben Yiğit (Saganın Bot Departman Geliştiricisi) Öncelikle Alt Yapımızı Tercih Ettiğiniz İçin Teşşekür Ederim**`)
+.addField(`MRTERN | BILGI`, `**ALT YAPI 20 tane komut bulunmaktadır gerisine bakın kendiniz :wink: **`)
 .setFooter(`MRTERN | Mutlu Bir Nefes| 2021`)
 .setTimestamp();
 
@@ -510,11 +510,8 @@ client.on('guildMemberAdd', async(member) => {
       .setThumbnail(member.avatarURL())
       .setColor(0x00AE86)
       .setTimestamp()
-      .addField('Eylem:', '**Mute**')
       .addField('Kullanıcı:', `${member} (${member.id})`)
-      .addField('Yetkili:', `${client.user} (${client.user.id})`)
-      .addField('Süre', "Sonsuz")
-      .addField('Sebep', "Muteliyken Sunucudan Çıkmak.")
+      .addFiel('Sebep', "Muteliyken Sunucudan Çıkmak.")
      member.guild.channels.cache.get(modlog).send(embed);
   }
   })

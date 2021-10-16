@@ -5,7 +5,7 @@ exports.run = (Bot, Mesaj, Argüman) => {
 
 if(db.fetch(`bakimmod`)) {
 
-  if(message.author.id !== "683752128644251660") return message.channel.send('```Şuanlık Discord Botumuz Bakımdadır Lütfen Bir Kaç Saat Sonra Tekrar Deneyiniz Veya Ellunati#4909 Bana Ulaşın```')
+  if(message.author.id !== "683752128644251660") return message.channel.send('```Şuanlık Discord Botumuz Bakımdadır Lütfen Bir Kaç Saat Sonra Tekrar Deneyiniz```')
 
 }
 
