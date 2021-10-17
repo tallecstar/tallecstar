@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const Database = require("plasma-db");
-const vt = new Database("./essageStats.json");
+const vt = new Database("./messageStats.json");
 
 /**
  * @param {Discord.Message} message
