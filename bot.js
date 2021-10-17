@@ -9,6 +9,7 @@ const moment = require("moment");
 const { GiveawaysManager } = require('discord-giveaways');
 const ayarlar = require("./ayarlar.json");
 const express = require("express");
+require("./util/eventLoader.js")
 
 /////
 const app = express();

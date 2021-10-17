@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const Database = require("plasma-db");
-const vt = new Database("./Database/voiceStats.json");
+const vt = new Database("./voiceStats.json");
 
 const Activites = new Map();
 
