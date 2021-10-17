@@ -9,9 +9,20 @@ const moment = require("moment");
 const { GiveawaysManager } = require('discord-giveaways');
 const ayarlar = require("./ayarlar.json");
 const express = require("express");
-require("./util/eventLoader.js");
-require("./events/voiceStateUpdate.js");
-require('./util/Util.js');
+const vt = require("quick.db")
+
+exports.execute = async (message) => {
+    if(message.author.bot || message.content.startsWith(global.Settings.Prefix)) return;
+
+    vt.add(`stats.${message.guild.id}.${message.author.id}.channels.${message.channel.id}`, 1);
+    vt.set(`stats.${message.guild.id}.${message.author.id}.activity`, Date.now());
+  console.log("sa")
+};
+
+exports.conf = {
+    event: "message"
+};
+
 
 /////
 const app = express();
