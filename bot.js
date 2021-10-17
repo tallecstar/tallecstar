@@ -756,7 +756,7 @@ let engin = db.fetch(`küfürengellog_${msg.guild.id}`)
 let enginn = db.fetch(`küfürengelmesaj_${msg.guild.id}`)
 let enginar = db.fetch(`küfürengel_${msg.guild.id}`)
 if(enginar === "aktif") {
-const kufurler = ["oç", "amk", "ananı sikiyim", "ananıskm", "piç", "amk", "amsk", "sikim", "sikiyim", "orospu çocuğu", "piç kurusu", "kahpe", "orospu", "sik", "yarrak", "amcık", "amık", "yarram", "sikimi ye", "mk", "mq", "aq", "amq",];
+const kufurler = ["oç", "amk", "yarak", "ananı sikiyim", "ananıskm", "piç", "amk", "amsk", "sikim", "sikiyim", "orospu çocuğu", "piç kurusu", "kahpe", "orospu", "sik", "yarrak", "amcık", "amık", "yarram", "sikimi ye", "mk", "mq", "aq", "amq",];
 if (kufurler.some(word => msg.content.toLowerCase().includes(word))) {
   try {
     if (!msg.member.hasPermission("BAN_MEMBERS")) {
