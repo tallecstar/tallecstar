@@ -4,10 +4,11 @@ const vt = new Database("./voiceStats.json");
 
 const Activites = new Map();
 
-/**
- * @param {Discord.VoiceState} oldState
- * @param {Discord.VoiceState} newState
- */
+
+/*
+* @param {Discord.VoiceState} oldState
+* @param {Discord.VoiceState} newState
+*/
 exports.execute = async (oldState, newState) => {
     if((oldState.member && oldState.member.user.bot) || (newState.member && newState.member.user.bot)) return;
     if(!oldState.channelID && newState.channelID) { // This user has join the channel.

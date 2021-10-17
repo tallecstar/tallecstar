@@ -3497,7 +3497,7 @@ specifiers:
   opusscript: ^0.0.7
   parse-ms: ^2.1.0
   path: ^0.12.7
-  plasma-db: 1.1.0
+  plasma-db: ^1.0.0
   quick.db: ^7.1.2
   random-puppy: ^1.1.0
   randomstring: ^1.1.5
