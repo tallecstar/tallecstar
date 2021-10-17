@@ -58,7 +58,7 @@ mutekisi.roles.add(muterol);
     .setThumbnail(message.author.avatarURL())
     .setColor(0x00AE86)
     .setTimestamp()
-    .addField('Eylem: **Mute**', `${mutekisi} (${mutekisi.id}) adlı kullanıcı`) .addField('Süre', args[1]) .addField('Sebep', sebep)
+    .addField('Eylem: **Mute**', `${mutekisi} (${mutekisi.id}) adlı kullanıcı **${sebep}** sebebiyle **${args[1]}** süre susturuldu`)
       message.channel.send(embed);
 
   setTimeout(function() {
