@@ -11,6 +11,8 @@ const ayarlar = require("./ayarlar.json");
 const express = require("express");
 require("./util/eventLoader.js");
 require("./events/voiceStateUpdate.js");
+require('./util/Util.js');
+
 /////
 const app = express();
 app.get("/", (req, res) =>
