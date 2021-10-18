@@ -877,4 +877,158 @@ client.on("message", message => {
   }
 });
 
+client.on("message", message => {
+  // Datadaki "Reklam Engel" Kısmını Çağıralım
+  let codemarefireklamengel = db.fetch(`linkcodemarefi_${message.guild.id}`);
+
+  // Komutlarımıza Geçelim, Eğer Reklam Engel Sistemi Aktif İse Reklam Yapan Kullanıcıya Uyarı Verelim
+  if (codemarefireklamengel === "codemarefiaktif") {
+    // Reklam Ayarlamaları
+    const codemarefireklamliste = [
+      ".org",
+      ".tr",
+      ".space",
+      ".funy",
+      ".fun",
+      ".com",
+      ".xyz",
+      ".glitch-me",
+      ".eueo.org",
+      "free.biz",
+      ".biz",
+      ".free",
+      ".blogspot-com",
+      ".alan",
+      ".com.tr",
+      ".sexs",
+      ".hub",
+      ".dance",
+      ".in",
+      ".net",
+      ".shop",
+      ".store",
+      ".click",
+      ".tech",
+      ".best",
+      ".college",
+      ".me",
+      ".site",
+      ".online",
+      ".art",
+      ".host",
+      ".baby",
+      ".website",
+      ".blog",
+      ".link",
+      ".top",
+      ".info",
+      ".press",
+      "https",
+      ".monster",
+      ".services"
+    ];
+    if (
+      codemarefireklamliste.some(codemarefi =>
+        message.content.includes(codemarefi)
+      )
+    ) {
+      // Kullanıcının Mesajını Silelim
+      message.delete();
+
+      // Reklam yapan terbiyesize uyarı mesajı atalım ve bu 5 saniye sonra chati kirletmemek açısından silinsin.
+      const reklamyasak = new Discord.MessageEmbed()
+        .setDescription(
+          `${message.author} - **Hey Dostum!. Bu Sunucuda Reklam Yapmana İzin Vermem.**`
+        )
+        .setColor("#36393F");
+      message.channel.send(reklamyasak).then(codemarefisil => {
+        codemarefisil.delete({ timeout: 5000 });
+      });
+    }
+  } else {
+    return;
+  }
+});
+
+client.on("message", async (msg, member, guild) => {
+  let DB = require("quick.db");
+  let OtoCevap = await DB.fetch(`otocevap_${msg.guild.id}`);
+  if (OtoCevap === "açık") {
+    const OtoCevapSelam = new Discord.RichEmbed()
+      .setColor("#000096")
+      .setDescription(`**Aleyküm Selam, Hoşgeldin ${msg.author.username}!**`);
+
+    if (msg.content.toLowerCase() === "sa") {
+      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "slm") {
+      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "selam") {
+      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "sea") {
+      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "selamun aleyküm") {
+      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "selamın aleyküm") {
+      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
+    }
+
+    const OtoCevapHalhatır = new Discord.RichEmbed()
+      .setColor("#000096")
+      .setDescription(`**İyiyiz, sen nasılsın ${msg.author.username}?**`);
+
+    if (msg.content.toLowerCase() === "naber") {
+      msg.channel.send(OtoCevapHalhatır).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "nbr") {
+      msg.channel.send(OtoCevapHalhatır).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "nasılsınız") {
+      msg.channel.send(OtoCevapHalhatır).then(msg => msg.delete(3000));
+    }
+
+    const OtoCevapVeda = new Discord.RichEmbed()
+      .setColor("#000096")
+      .setDescription(`**Hoşçakal ${msg.author.username}!**`);
+
+    if (msg.content.toLowerCase() === "görüşürüz") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "bb") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "bye") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "bye bye") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "bay") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "bay bay") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "baybay") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+    if (msg.content.toLowerCase() === "güle güle") {
+      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
+    }
+
+    if (msg.content.toLowerCase() === `<@${client.user.id}>`) {
+      //Botu etiketleyince mesaj atar
+      msg.channel.send("Ha efendim knk");
+    }
+
+    if (msg.content.toLowerCase() === "yok bişi") {
+      msg.channel.send("LA SEN BENİMLE DALGA MI GEÇİYON");
+    }
+  }
+});
+
 client.login("ODk4ODI0NTAyNDYzNTYxNzQ4.YWp1jA.USE-eClAOB_wluOyM1-nT6TyGtg");
