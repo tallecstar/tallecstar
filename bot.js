@@ -6,23 +6,26 @@ const db = require("quick.db");
 const chalk = require("chalk");
 const fetch = require("node-fetch");
 const moment = require("moment");
-const { GiveawaysManager } = require('discord-giveaways');
+const { GiveawaysManager } = require("discord-giveaways");
 const ayarlar = require("./ayarlar.json");
 const express = require("express");
-const vt = require("quick.db")
+const vt = require("quick.db");
 
-exports.execute = async (message) => {
-    if(message.author.bot || message.content.startsWith(global.Settings.Prefix)) return;
+exports.execute = async message => {
+  if (message.author.bot || message.content.startsWith(global.Settings.Prefix))
+    return;
 
-    vt.add(`stats.${message.guild.id}.${message.author.id}.channels.${message.channel.id}`, 1);
-    vt.set(`stats.${message.guild.id}.${message.author.id}.activity`, Date.now());
-  console.log("sa")
+  vt.add(
+    `stats.${message.guild.id}.${message.author.id}.channels.${message.channel.id}`,
+    1
+  );
+  vt.set(`stats.${message.guild.id}.${message.author.id}.activity`, Date.now());
+  console.log("sa");
 };
 
 exports.conf = {
-    event: "message"
+  event: "message"
 };
-
 
 /////
 const app = express();
@@ -38,22 +41,14 @@ app.listen(process.env.PORT, () =>
 
 const bot = new Discord.Client();
 
-var oyun = [
-`✨`,
-`🚀  `,
-`🌟 Prefix | (!)`
-]
-  
+var oyun = [`✨`, `🚀  `, `🌟 Prefix | (!)`];
+
 client.on("ready", () => {
-setInterval(function() {
-
-         var random = Math.floor(Math.random()*(oyun.length-0+1)+0);
-         client.user.setActivity(oyun[random], {"type": "WATCHING"});
-
-        }, 2 * 5000);
+  setInterval(function() {
+    var random = Math.floor(Math.random() * (oyun.length - 0 + 1) + 0);
+    client.user.setActivity(oyun[random], { type: "WATCHING" });
+  }, 2 * 5000);
 });
-
-
 
 client.on("message", message => {
   let client = message.client;
@@ -74,39 +69,37 @@ client.on("message", message => {
   }
 });
 
-
-
 //-------------Bot Eklenince Bir Kanala Mesaj Gönderme Komutu ---------------\\
 
 const embed = new Discord.MessageEmbed()
-.setThumbnail()
-.addField(`MRTERN | ELS`, `**Selamlar, Ben Yiğit (Saganın Bot Departman Geliştiricisi) Öncelikle Alt Yapımızı Tercih Ettiğiniz İçin Teşşekür Ederim**`)
-.addField(`MRTERN | BILGI`, `**ALT YAPI 20 tane komut bulunmaktadır gerisine bakın kendiniz :wink: **`)
-.setFooter(`MRTERN | Mutlu Bir Nefes| 2021`)
-.setTimestamp();
-
+  .setThumbnail()
+  .addField(
+    `MRTERN | ELS`,
+    `**Selamlar, Ben Yiğit (Saganın Bot Departman Geliştiricisi) Öncelikle Alt Yapımızı Tercih Ettiğiniz İçin Teşşekür Ederim**`
+  )
+  .addField(
+    `MRTERN | BILGI`,
+    `**ALT YAPI 20 tane komut bulunmaktadır gerisine bakın kendiniz :wink: **`
+  )
+  .setFooter(`MRTERN | Mutlu Bir Nefes| 2021`)
+  .setTimestamp();
 
 client.on("guildCreate", guild => {
+  let defaultChannel = "";
+  guild.channels.cache.forEach(channel => {
+    if (channel.type == "text" && defaultChannel == "") {
+      if (channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
+        defaultChannel = channel;
+      }
+    }
+  });
 
-let defaultChannel = "";
-guild.channels.cache.forEach((channel) => {
-if(channel.type == "text" && defaultChannel == "") {
-if(channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
-defaultChannel = channel;
-}
-}
-})
-
-defaultChannel.send(embed)
-
+  defaultChannel.send(embed);
 });
-
-
 
 //----------------------------------------------------------------\\
 
 client.on("message", async message => {
-
   if (message.author.bot) return;
 
   if (!message.guild) return;
@@ -118,8 +111,7 @@ client.on("message", async message => {
   if (!message.content.startsWith(prefix)) return;
 
   if (!message.member)
-
-  message.member = await message.guild.fetchMember(message);
+    message.member = await message.guild.fetchMember(message);
 
   const args = message.content
 
@@ -132,15 +124,13 @@ client.on("message", async message => {
   const cmd = args.shift().toLowerCase();
 
   if (cmd.length === 0) return;
-  
+
   let command = client.commands.get(cmd);
 
   if (!command) command = client.commands.get(client.aliases.get(cmd));
 
   if (command) command.run(client, message, args);
-
 });
-
 
 //////////////////////////MODLOG///////////////////
 client.on("messageDelete", async message => {
@@ -508,36 +498,31 @@ client.on("guildBanRemove", async (guild, user) => {
 
 //////////////////////////////MODLOG///////////////////////////
 
-
 //Muteliyken sw den çıkana mute
-client.on('guildMemberAdd', async(member) => {
+client.on("guildMemberAdd", async member => {
   let mute = db.fetch(`muterol_${member.guild.id}`);
-  let mutelimi = db.fetch(`muteli_${member.guild.id + member.id}`)
+  let mutelimi = db.fetch(`muteli_${member.guild.id + member.id}`);
   if (!mutelimi) return;
   if (mutelimi == "muteli") {
-  member.roles.add(mute)
-   member.send("Muteliyken Sunucudan Çıktığın için Yeniden Mutelendin!")
-       const modlog = db.fetch(`modlogKK_${member.guild.id}`)
+    member.roles.add(mute);
+    member.send("Muteliyken Sunucudan Çıktığın için Yeniden Mutelendin!");
+    const modlog = db.fetch(`modlogKK_${member.guild.id}`);
     if (!modlog) return;
-     db.delete(`muteli_${member.guild.id + member.id}`)
-        const embed = new Discord.MessageEmbed()
+    db.delete(`muteli_${member.guild.id + member.id}`);
+    const embed = new Discord.MessageEmbed()
       .setThumbnail(member.avatarURL())
-      .setColor(0x00AE86)
+      .setColor(0x00ae86)
       .setTimestamp()
-      .addField('Kullanıcı:', `${member} (${member.id})`)
-      .addFiel('Sebep', "Muteliyken Sunucudan Çıkmak.")
-     member.guild.channels.cache.get(modlog).send(embed);
+      .addField("Kullanıcı:", `${member} (${member.id})`)
+      .addFiel("Sebep", "Muteliyken Sunucudan Çıkmak.");
+    member.guild.channels.cache.get(modlog).send(embed);
   }
-  })
-  //Muteliyken sw den çıkana mute
+});
+//Muteliyken sw den çıkana mute
 
-client.on('message', msg => {
-  client.emit('checkMessage', msg); 
-})
-
-
-
-
+client.on("message", msg => {
+  client.emit("checkMessage", msg);
+});
 
 const log = message => {
   console.log(`[${moment().format("YYYY-MM-DD HH:mm:ss")}] ${message}`);
@@ -690,10 +675,7 @@ client.on("message", async msg => {
   if (!i) return;
 });
 
-
-
 //////////////////////////////////////////////////
-
 
 client.elevation = message => {
   if (!message.guild) {
@@ -721,36 +703,36 @@ client.on("guildMemberRemove", async member => {
     );
 });
 
-
 //////çekiliş/////////..
-if(!db.get("giveaways")) db.set("giveaways", []);
+if (!db.get("giveaways")) db.set("giveaways", []);
 
 const GiveawayManagerWithOwnDatabase = class extends GiveawaysManager {
+  async getAllGiveaways() {
+    return db.get("giveaways");
+  }
 
-    async getAllGiveaways(){
-        return db.get("giveaways");
-    }
+  async saveGiveaway(messageID, giveawayData) {
+    db.push("giveaways", giveawayData);
+    return true;
+  }
 
-    async saveGiveaway(messageID, giveawayData){
-        db.push("giveaways", giveawayData);
-        return true;
-    }
+  async editGiveaway(messageID, giveawayData) {
+    const giveaways = db.get("giveaways");
+    const newGiveawaysArray = giveaways.filter(
+      giveaway => giveaway.messageID !== messageID
+    );
+    newGiveawaysArray.push(giveawayData);
+    db.set("giveaways", newGiveawaysArray);
+    return true;
+  }
 
-    async editGiveaway(messageID, giveawayData){
-        const giveaways = db.get("giveaways");
-        const newGiveawaysArray = giveaways.filter((giveaway) => giveaway.messageID !== messageID);
-        newGiveawaysArray.push(giveawayData);
-        db.set("giveaways", newGiveawaysArray);
-        return true;
-    }
-
-    async deleteGiveaway(messageID){
-        const newGiveawaysArray = db.get("giveaways").filter((giveaway) => giveaway.messageID !== messageID);
-        db.set("giveaways", newGiveawaysArray);
-        return true;
-    }
-  
-  
+  async deleteGiveaway(messageID) {
+    const newGiveawaysArray = db
+      .get("giveaways")
+      .filter(giveaway => giveaway.messageID !== messageID);
+    db.set("giveaways", newGiveawaysArray);
+    return true;
+  }
 };
 const manager = new GiveawayManagerWithOwnDatabase(client, {
   storage: false,
@@ -763,50 +745,136 @@ const manager = new GiveawayManagerWithOwnDatabase(client, {
 });
 client.giveawaysManager = manager;
 
-client.on('message', async msg => {
-const Database = require("plasma-db");
-const db = new Database("./database.json");
-let engin = db.fetch(`küfürengellog_${msg.guild.id}`)
-let enginn = db.fetch(`küfürengelmesaj_${msg.guild.id}`)
-let enginar = db.fetch(`küfürengel_${msg.guild.id}`)
-if(enginar === "aktif") {
-const kufurler = ["oç", "amk", "yarak", "ananı sikiyim", "ananıskm", "piç", "amk", "amsk", "sikim", "sikiyim", "orospu çocuğu", "piç kurusu", "kahpe", "orospu", "sik", "yarrak", "amcık", "amık", "yarram", "sikimi ye", "mk", "mq", "aq", "amq",];
-if (kufurler.some(word => msg.content.toLowerCase().includes(word))) {
-  try {
-    if (!msg.member.hasPermission("BAN_MEMBERS")) {
+client.on("message", async msg => {
+  const Database = require("plasma-db");
+  const db = new Database("./database.json");
+  let engin = db.fetch(`küfürengellog_${msg.guild.id}`);
+  let enginn = db.fetch(`küfürengelmesaj_${msg.guild.id}`);
+  let enginar = db.fetch(`küfürengel_${msg.guild.id}`);
+  if (enginar === "aktif") {
+    const kufurler = [
+      "oç",
+      "amk",
+      "yarak",
+      "ananı sikiyim",
+      "ananıskm",
+      "piç",
+      "amk",
+      "amsk",
+      "sikim",
+      "sikiyim",
+      "orospu çocuğu",
+      "piç kurusu",
+      "kahpe",
+      "orospu",
+      "sik",
+      "yarrak",
+      "amcık",
+      "amık",
+      "yarram",
+      "sikimi ye",
+      "mk",
+      "mq",
+      "aq",
+      "amq"
+    ];
+    if (kufurler.some(word => msg.content.toLowerCase().includes(word))) {
+      try {
+        if (!msg.member.hasPermission("BAN_MEMBERS")) {
           msg.delete();
           const embed = new Discord.MessageEmbed()
-          .setTitle('Bir küfür yakaladım!')
-          .setDescription(`<@${msg.author.id}> adlı kullanıcı küfürlü kelime kullandı! \n Kullanıcının ettiği küfür silindi!`)
-          client.channels.cache.get(engin).send(embed)
-          return msg.channel.send(`<@${msg.author.id}>, ${enginn}`)
- 
-        }              
-      } 
-      catch(err) {
+            .setTitle("Bir küfür yakaladım!")
+            .setDescription(
+              `<@${msg.author.id}> adlı kullanıcı küfürlü kelime kullandı! \n Kullanıcının ettiği küfür silindi!`
+            );
+          client.channels.cache.get(engin).send(embed);
+          return msg.channel.send(`<@${msg.author.id}>, ${enginn}`);
+        }
+      } catch (err) {
         console.log(err);
       }
-}
-}
-else return;
+    }
+  } else return;
 });
 
 client.on("message", async msg => {
-    if (msg.channel.type === "dm") return;
-      if(msg.author.bot) return;  
-        if (msg.content.length > 10) {
-         if (db.fetch(`capslock_${msg.guild.id}`)) {
-           let caps = msg.content.toUpperCase()
-           if (msg.content == caps) {
-             if (!msg.member.hasPermission("ADMINISTRATOR")) {
-               if (!msg.mentions.users.first()) {
-                 msg.delete()
-                 return msg.channel.send(`✋ ${msg.author}, Bu sunucuda, büyük harf kullanımı engellenmekte!`).then(m => m.delete(5000))
-     }
-       }
-     }
-   }
+  if (msg.channel.type === "dm") return;
+  if (msg.author.bot) return;
+  if (msg.content.length > 10) {
+    if (db.fetch(`capslock_${msg.guild.id}`)) {
+      let caps = msg.content.toUpperCase();
+      if (msg.content == caps) {
+        if (!msg.member.hasPermission("ADMINISTRATOR")) {
+          if (!msg.mentions.users.first()) {
+            msg.delete();
+            return msg.channel
+              .send(
+                `✋ ${msg.author}, Bu sunucuda, büyük harf kullanımı engellenmekte!`
+              )
+              .then(m => m.delete(5000));
+          }
+        }
+      }
+    }
   }
 });
 
-client.login("ODk4ODI0NTAyNDYzNTYxNzQ4.YWp1jA.USE-eClAOB_wluOyM1-nT6TyGtg")
+client.on("message", message => {
+  // Baş Tanımlar
+  if (!message.guild) return;
+  if (message.content.startsWith(ayarlar.prefix + "afk")) return;
+
+  // Let Tanımları & Data Veri Çekme İşlemleri
+  let codemarefiafk = message.mentions.users.first();
+  let codemarefikisi = db.fetch(
+    `kisiid_${message.author.id}_${message.guild.id}`
+  );
+  let codemarefikisiisim = db.fetch(
+    `kisiisim_${message.author.id}_${message.guild.id}`
+  );
+
+  // Eğer Afk Kişi Etiketlenirse Mesaj Atalım
+  if (codemarefiafk) {
+    // Let Tanımları
+    let cmfsebep = db.fetch(`cmfsebep_${codemarefiafk.id}_${message.guild.id}`);
+    let codemarefikisi2 = db.fetch(
+      `kisiid_${codemarefiafk.id}_${message.guild.id}`
+    );
+
+    if (message.content.includes(codemarefikisi2)) {
+      const cmfbilgiafk = new Discord.MessageEmbed()
+        .setDescription(
+          `${message.author} - Etiketlemiş Olduğun <@!${codemarefikisi2}> Kişisi Şuan **${cmfsebep}** Sebebiyle AFK`
+        )
+        .setColor("#36393F")
+        .setFooter("Afk Sistemi");
+      message.channel.send(cmfbilgiafk);
+    }
+  }
+
+  // Eğer Afk Kişi Mesaj Yazarsa Afk'lıktan Çıkaralım Ve Mesaj Atalım
+  if (message.author.id === codemarefikisi) {
+    // Datadaki AFK Kullanıcı Verilerini Silelim
+    db.delete(`cmfsebep_${message.author.id}_${message.guild.id}`);
+    db.delete(`kisiid_${message.author.id}_${message.guild.id}`);
+    db.delete(`kisiisim_${message.author.id}_${message.guild.id}`);
+
+    // Afk'lıktan Çıktıktan Sonra İsmi Eski Haline Getirsin
+    message.member.setNickname(codemarefikisiisim);
+
+    // Bilgilendirme Mesajı Atalım
+    const cmfbilgiafk = new Discord.MessageEmbed()
+      .setAuthor(
+        `Hoşgeldin ${message.author.username}`,
+        message.author.avatarURL({ dynamic: true, size: 2048 })
+      )
+      .setDescription(
+        `<@!${codemarefikisi}> Başarılı Bir Şekilde **AFK** Modundan Çıkış Yaptın.`
+      )
+      .setColor("#36393F")
+      .setFooter("Afk Sistemi");
+    message.channel.send(cmfbilgiafk);
+  }
+});
+
+client.login("ODk4ODI0NTAyNDYzNTYxNzQ4.YWp1jA.USE-eClAOB_wluOyM1-nT6TyGtg");
