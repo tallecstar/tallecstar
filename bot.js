@@ -952,7 +952,7 @@ client.on("message", message => {
 
 client.on("message", message => {
   // Data
-  let sistem = db.fetch(`saas_${message.guild.id}`);
+  let sistem = db.fetch(`cmfsaas_${message.guild.id}`);
 
   // Sa
   var sa = [
@@ -984,7 +984,7 @@ client.on("message", message => {
 
 client.on("message", message => {
   // Data
-  let sistem = db.fetch(`otocevap_${message.guild.id}`);
+  let sistem = db.fetch(`cmfotocevap_${message.guild.id}`);
 
   // mesaj
   var sa = [
@@ -1000,6 +1000,32 @@ client.on("message", message => {
     if (sa.includes(message.content.toLowerCase())) {
       message.channel.send(
         `${message.author} **Günaydın, ne güzel bir sabah değil mi?☀️**`
+      );
+    }
+  } else {
+    // Sistem Kapalıysa Bot İplemesin.
+    return;
+  }
+});
+
+client.on("message", message => {
+  // Data
+  let sistem = db.fetch(`cmfotocevap2_${message.guild.id}`);
+
+  // mesaj
+  var sa = [
+    "İyi Geceler",
+    "İYİ GECELER",
+    "iyi geceler",
+    "İyi geceler",
+    "İyiGeceler",
+    "İYİ GECELERR"
+  ];
+
+  if (sistem === "aktif") {
+    if (sa.includes(message.content.toLowerCase())) {
+      message.channel.send(
+        `${message.author} **İyi geceleeer :)**`
       );
     }
   } else {

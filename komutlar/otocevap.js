@@ -23,7 +23,7 @@ exports.run = (client, message, args) => {
       .setColor("#ff0000");
     message.channel.send(codemarefi);
   }
-}; // CODEMAREFİ - MAREFİ
+};
 exports.conf = {
   enabled: true,
   guildOnly: false,
