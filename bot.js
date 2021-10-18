@@ -950,84 +950,35 @@ client.on("message", message => {
   }
 });
 
-client.on("message", async (msg, member, guild) => {
-  let DB = require("quick.db");
-  let OtoCevap = await DB.fetch(`otocevap_${msg.guild.id}`);
-  if (OtoCevap === "açık") {
-    const OtoCevapSelam = new Discord.RichEmbed()
-      .setColor("#000096")
-      .setDescription(`**Aleyküm Selam, Hoşgeldin ${msg.author.username}!**`);
+client.on("message", message => {
+  // Data
+  let sistem = db.fetch(`cmfsaas_${message.guild.id}`);
 
-    if (msg.content.toLowerCase() === "sa") {
-      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "slm") {
-      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "selam") {
-      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "sea") {
-      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "selamun aleyküm") {
-      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "selamın aleyküm") {
-      msg.channel.send(OtoCevapSelam).then(msg => msg.delete(3000));
-    }
+  // Sa
+  var sa = [
+    "Sa",
+    "SA",
+    "sa",
+    "Sea",
+    "sea",
+    "SEA",
+    "selamın aleyküm",
+    "Selamın Aleyküm",
+    "SELAMIN ALEYKÜm",
+    "selamun aleyküm",
+    "Selamun Aleyküm",
+    "SELAMUN ALEYKÜM"
+  ];
 
-    const OtoCevapHalhatır = new Discord.RichEmbed()
-      .setColor("#000096")
-      .setDescription(`**İyiyiz, sen nasılsın ${msg.author.username}?**`);
-
-    if (msg.content.toLowerCase() === "naber") {
-      msg.channel.send(OtoCevapHalhatır).then(msg => msg.delete(3000));
+  if (sistem === "aktif") {
+    if (sa.includes(message.content.toLowerCase())) {
+      message.channel.send(
+        `${message.author} **Aleyküm Selam Dostum, Hoşgeldin.**`
+      );
     }
-    if (msg.content.toLowerCase() === "nbr") {
-      msg.channel.send(OtoCevapHalhatır).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "nasılsınız") {
-      msg.channel.send(OtoCevapHalhatır).then(msg => msg.delete(3000));
-    }
-
-    const OtoCevapVeda = new Discord.RichEmbed()
-      .setColor("#000096")
-      .setDescription(`**Hoşçakal ${msg.author.username}!**`);
-
-    if (msg.content.toLowerCase() === "görüşürüz") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "bb") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "bye") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "bye bye") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "bay") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "bay bay") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "baybay") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-    if (msg.content.toLowerCase() === "güle güle") {
-      msg.channel.send(OtoCevapVeda).then(msg => msg.delete(3000));
-    }
-
-    if (msg.content.toLowerCase() === `<@${client.user.id}>`) {
-      //Botu etiketleyince mesaj atar
-      msg.channel.send("Ha efendim knk");
-    }
-
-    if (msg.content.toLowerCase() === "yok bişi") {
-      msg.channel.send("LA SEN BENİMLE DALGA MI GEÇİYON");
-    }
+  } else {
+    // Sistem Kapalıysa Bot İplemesin.
+    return;
   }
 });
 
