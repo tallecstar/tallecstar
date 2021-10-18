@@ -992,7 +992,7 @@ client.on("message", message => {
   if (sistem === "aktif") {
     if (sa.includes(message.content.toLowerCase())) {
       message.channel.send(
-        `${message.author} **Günaydın, ne güzel bir sabah değil mi?☀️**`
+        `**Günaydın ${message.author}, ne güzel bir sabah değil mi?☀️**`
       );
     }
   } else {
@@ -1018,7 +1018,7 @@ client.on("message", message => {
   if (sistem === "aktif") {
     if (sa.includes(message.content.toLowerCase())) {
       message.channel.send(
-        `${message.author} **İyi geceleeer :)**`
+        `**İyi geceleeer ${message.author} :)**`
       );
     }
   } else {
