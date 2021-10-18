@@ -22,7 +22,7 @@ exports.run = async (client, message, args) => {
                 Id: md,
                 Total: Object.values(messageData[md].channels || {}).reduce((a, b) => a + b, 0)
             };
-        }).sort((a, b) => b.Total - a.Total).splice(0, 10).map((user, index) => `\`${index + 1}.\` <@${user.Id}> \`${user.Total} message\``).join("\n║");    
+        }).sort((a, b) => b.Total - a.Total).splice(0, 10).map((user, index) => `\`${index + 1}.\` <@${user.Id}> \`${user.Total} message\``).join("\n");    
     }
 
     let voiceList = "Bilgi Bulunamadı.";
@@ -32,40 +32,32 @@ exports.run = async (client, message, args) => {
                 Id: md,
                 Total: Object.values(voiceData[md].channels || {}).reduce((a, b) => a + b, 0)
             };
-        }).sort((a, b) => b.Total - a.Total).splice(0, 10).map((user, index) => `\`${index + 1}.\` <@${user.Id}> \`${moment.duration(user.Total).format("H [hours,] m [minutes] s [seconds]")}\``).join("\n║");
+        }).sort((a, b) => b.Total - a.Total).splice(0, 10).map((user, index) => `\`${index + 1}.\` <@${user.Id}> \`${moment.duration(user.Total).format("H [hours,] m [minutes] s [seconds]")}\``).join("\n");
     }
 
     let embed = new Discord.MessageEmbed();
   embed.setColor('RANDOM')
-    .setFooter('Rozy')
+    .setFooter(`${message.author.tag}`)
     .setThumbnail(message.author.avatarURL({dynamic: true}))
     .setDescription(`Aşağıda Ses Ve Mesaj Aktiflik Sıralamasını Görebilirsiniz.`)
-    .addField("Ses Sıralaması;", `
+    .addField("> Ses Sıralaması;", `
     \`\`\`En Çok Seste Duran Kişilerin Sıralaması;\`\`\`
-    ╔═══════════◥◣❖◢◤════════════╗
-    ║
-    ║**${voiceList}**
-    ║
-    ╚═══════════◥◣❖◢◤════════════╝
+    **${voiceList}**
     `)
-    .addField("Sohbet Sıralaması;", `
+    .addField("> Sohbet Sıralaması;", `
    \`\`\`En Çok Mesaj Atan Kişilerin Sıralaması;\`\`\`
-    ╔═══════════◥◣❖◢◤════════════╗
-    ║
-    ║**${messageList}**
-    ║
-    ╚═══════════◥◣❖◢◤════════════╝
+    **${messageList}**
     `);    message.channel.send(embed);
 };
 
 exports.conf = {
-    aliases: ["top", "siralama", "sıralama", "ranks", "ranking"],
+    aliases: ["siralama", "sıralama", "ranks", "ranking"],
     enabled: true,
     guildOnly: true
 };
 
 exports.help = { 
-    name: 'eniyi', 
+    name: 'top', 
     description: 'Resets server statics.',
     usage: '[p]rstats [all/voice/messages]',
     category: 'Guild'
