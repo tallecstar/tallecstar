@@ -20,7 +20,7 @@ fs.readdirSync("./events", { encoding: "utf-8" }).filter(file => file.endsWith("
 });
 
 /////
-const app = express();
+/*const app = express();
 app.get("/", (req, res) =>
   res.send("Bot Aktif | Discord = https://discord.gg/NMnPUjK")
 );
@@ -28,6 +28,7 @@ app.listen(process.env.PORT, () =>
   console.log("Port ayarlandı: " + process.env.PORT)
 );
 //////////////////////////////////////////////////////////////
+*/
 
 //------------------Değişen Oynuyor---------------------------\\
 

@@ -39,19 +39,12 @@ exports.run = async (client, message, args) => {
     .setFooter('Rozy')
     .setThumbnail(message.author.avatarURL({dynamic: true}))
     .addField("Kullanıcı Bilgileri;",` 
-    ╔═══════════◥◣❖◢◤════════════╗
-    ║\`ID:\` **${message.author.id}**
-    ║\`Rolleri:\` ${message.member.roles.cache.size >= 5 ? "Çok Fazla Rol Var..." : message.member.roles.cache.map(role => role.toString())}
-    ║\`Kullanıcı Adı:\` **${message.member.displayName}**
-    ╚═══════════◥◣❖◢◤════════════╝
+   \`ID:\` **${message.author.id}**
+    \`Kullanıcı Adı:\` **${message.member.displayName}**
     `)
     .addField("Ses Aktifliğin;", `
     \`\`\`En Çok Aktif Olduğun Kanallar Ve Süreleri;\`\`\`
-    ╔═══════════◥◣❖◢◤════════════╗
-    ║
-    ║**${voiceList}**
-    ║
-    ╚═══════════◥◣❖◢◤════════════╝
+    **${voiceList}**
     `)
     .addField("Sohbet Aktifliğin;", `
    \`\`\`En Çok Sohbet Ettiğin Kanallar Ve Mesaj Sayın;\`\`\`
@@ -62,7 +55,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.conf = {
-    commands: ["ben", "istatistik", "me"],
+    aliases: ["ben", "istatistik", "me"],
     enabled: true,
     guildOnly: true
 };
