@@ -8,7 +8,7 @@ exports.run = async (client, message, args) => {
 
   if (message.author.id !== ayarlar.sahip)
     return message.channel.send(
-      `Capslock engelleme adlı komutu kullanabilmek için, siteyi ziyaret ediniz.`
+      `Capslock engelleme.`
     );
   if (!message.member.hasPermission("MANAGE_GUILD"))
     return message.channel.send(`:fire: Yeterli yetki, bulunmamakta!`);
