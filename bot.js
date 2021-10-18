@@ -791,4 +791,22 @@ if (kufurler.some(word => msg.content.toLowerCase().includes(word))) {
 else return;
 });
 
+client.on("message", async msg => {
+    if (msg.channel.type === "dm") return;
+      if(msg.author.bot) return;  
+        if (msg.content.length > 4) {
+         if (db.fetch(`capslock_${msg.guild.id}`)) {
+           let caps = msg.content.toUpperCase()
+           if (msg.content == caps) {
+             if (!msg.member.hasPermission("ADMINISTRATOR")) {
+               if (!msg.mentions.users.first()) {
+                 msg.delete()
+                 return msg.channel.send(`✋ ${msg.author}, Bu sunucuda, büyük harf kullanımı engellenmekte!`).then(m => m.delete(5000))
+     }
+       }
+     }
+   }
+  }
+});
+
 client.login("ODk4ODI0NTAyNDYzNTYxNzQ4.YWp1jA.USE-eClAOB_wluOyM1-nT6TyGtg")
