@@ -6,7 +6,7 @@ exports.run = (client, message, args) => {
   if (!args[0]) {
     const cmfhata = new Discord.MessageEmbed()
       .setDescription(
-        `**Reklam Engel Sistemini Açabilmek & Kapatabilmek İçin \`.reklam-engel aç\`, \`.reklam-engel kapat\``
+        `**Reklam Engel Sistemini Açabilmek & Kapatabilmek İçin \`!reklam-engel aç\`, \`!reklam-engel kapat\``
       )
       .setColor("#36393F");
     return message.channel.send(cmfhata);
@@ -24,7 +24,7 @@ exports.run = (client, message, args) => {
         message.author.avatarURL({ dynamic: true })
       )
       .setDescription(
-        `**Reklam Engel Sistemini Başarılı Bir Şekilde Açtınız. Eğer Kaptmak İstersenizde** \`.reklam-engel kapat\``
+        `**Reklam Engel Sistemini Başarılı Bir Şekilde Açtınız. Eğer Kaptmak İstersenizde** \`!reklam-engel kapat\``
       )
       .setColor("#36393F");
     return message.channel.send(sistemaktif);
@@ -41,7 +41,7 @@ exports.run = (client, message, args) => {
         message.author.avatarURL({ dynamic: true })
       )
       .setDescription(
-        `**Reklam Engel Sistemini Başarılı Bir Şekilde Kapattınız. Eğer Açmak İstersenizde** \`.reklam-engel aç\``
+        `**Reklam Engel Sistemini Başarılı Bir Şekilde Kapattınız. Eğer Açmak İstersenizde** \`!reklam-engel aç\``
       )
       .setColor("#36393F");
     return message.channel.send(sistemdevredişi);
