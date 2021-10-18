@@ -11,21 +11,13 @@ const ayarlar = require("./ayarlar.json");
 const express = require("express");
 const vt = require("quick.db");
 
-exports.execute = async message => {
-  if (message.author.bot || message.content.startsWith(global.Settings.Prefix))
-    return;
-
-  vt.add(
-    `stats.${message.guild.id}.${message.author.id}.channels.${message.channel.id}`,
-    1
-  );
-  vt.set(`stats.${message.guild.id}.${message.author.id}.activity`, Date.now());
-  console.log("sa");
-};
-
-exports.conf = {
-  event: "message"
-};
+console.log("--------------------------------");
+console.log("Events Yükleniyor...");
+fs.readdirSync("./events", { encoding: "utf-8" }).filter(file => file.endsWith(".js")).forEach(file => {
+    let prop = require(`./events/${file}`);
+    client.on(prop.conf.event, prop.execute);
+    console.log(`[EVENT] ${file} Başarıyla Yüklendi !`);
+});
 
 /////
 const app = express();
