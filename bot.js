@@ -658,7 +658,7 @@ client.on("message", async msg => {
       msg.content.toLowerCase() == "selam"
     ) {
       try {
-        return msg.reply("Aleyküm Selam, Hoş Geldin");
+        return msg.channel.send(`Aleyküm Selam, Hoş Geldin ${msg.author.name}`);
       } catch (err) {
         console.log(err);
       }
@@ -966,7 +966,7 @@ client.on("message", message => {
   if (sistem === "aktif") {
     if (sa.includes(message.content.toLowerCase())) {
       message.channel.send(
-        `${message.author} **Aleyküm Selam, hoş geldin.**`
+        `**Aleyküm Selam, hoşgeldin ${message.author}!**`
       );
     }
   } else {

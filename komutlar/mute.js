@@ -64,12 +64,6 @@ mutekisi.roles.add(muterol);
   setTimeout(function() {
     mutekisi.roles.remove(muterol);
     db.delete(`muteli_${mutekisi.guild.id + mutekisi.id}`)
-    const embed = new Discord.MessageEmbed()
-    .setThumbnail(message.author.avatarURL())
-    .setColor(0x00AE86)
-    .setTimestamp()
-    .addField('Eylem:', '**Mute**') .addField('Kullanıcı:', `${mutekisi} (${mutekisi.id})`) .addField('Yetkili:', `${message.author} (${message.author.id})`) .addField('Süre', args[1]) .addField('Sebep', sebep)
-      message.channel.send(embed);
   }, ms(mutezaman));
 };
 
