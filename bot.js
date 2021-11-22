@@ -74,6 +74,10 @@ const embed = new Discord.MessageEmbed()
     `MRTERN | BILGI`,
     `**ALT YAPI 20 tane komut bulunmaktadır gerisine bakın kendiniz :wink: **`
   )
+  .addField(
+    `Güncelleme Detayları`,
+    `MehmetS tarafından Filtre sistemleri düzeltilmiştir.`
+  )
   .setFooter(`MRTERN | Mutlu Bir Nefes| 2021`)
   .setTimestamp();
 
@@ -602,50 +606,6 @@ client.yetkiler = message => {
   return permlvl;
 };
 
-client.on("message", async msg => {
-  if (msg.author.bot) return;
-
-  let i = await db.fetch(`reklamFiltre_${msg.guild.id}`);
-  if (i == "acik") {
-    const reklam = [
-      "https://",
-      "http://",
-      "discord.gg",
-      "discord.gg",
-      ".com",
-      ".net",
-      ".xyz",
-      ".tk",
-      ".pw",
-      ".io",
-      ".me",
-      ".gg",
-      "www.",
-      "https",
-      "http",
-      ".gl",
-      ".org",
-      ".com.tr",
-      ".biz",
-      ".party",
-      ".rf.gd",
-      ".az"
-    ];
-    if (reklam.some(word => msg.content.toLowerCase().includes(word))) {
-      try {
-        if (!msg.member.hasPermission("MANAGE_GUILD")) {
-          msg.delete();
-          return msg.channel
-            .send(`${msg.author.tag}, Reklam Yapmak Yasak!`)
-            .then(msg => msg.delete(10000));
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }
-  if (!i) return;
-});
 
 client.on("message", async msg => {
   const i = await db.fetch(`ssaass_${msg.guild.id}`);
@@ -739,72 +699,17 @@ const manager = new GiveawayManagerWithOwnDatabase(client, {
 client.giveawaysManager = manager;
 
 client.on("message", async msg => {
-  const Database = require("plasma-db");
-  const db = new Database("./database.json");
-  let engin = db.fetch(`küfürengellog_${msg.guild.id}`);
-  let enginn = db.fetch(`küfürengelmesaj_${msg.guild.id}`);
-  let enginar = db.fetch(`küfürengel_${msg.guild.id}`);
-  if (enginar === "aktif") {
-    const kufurler = [
-      "oç",
-      "amk",
-      "yarak",
-      "ananı sikiyim",
-      "ananıskm",
-      "piç",
-      "amk",
-      "amsk",
-      "sikim",
-      "sikiyim",
-      "orospu çocuğu",
-      "piç kurusu",
-      "kahpe",
-      "orospu",
-      "sik",
-      "yarrak",
-      "amcık",
-      "amık",
-      "yarram",
-      "sikimi ye",
-      "mk",
-      "mq",
-      "aq",
-      "amq"
-    ];
-    if (kufurler.some(word => msg.content.toLowerCase().includes(word))) {
-      try {
-        if (!msg.member.hasPermission("BAN_MEMBERS")) {
-          msg.delete();
-          const embed = new Discord.MessageEmbed()
-            .setTitle("Bir küfür yakaladım!")
-            .setDescription(
-              `<@${msg.author.id}> adlı kullanıcı küfürlü kelime kullandı! \n Kullanıcının ettiği küfür silindi!`
-            );
-          client.channels.cache.get(engin).send(embed);
-          return msg.channel.send(`<@${msg.author.id}>, ${enginn}`);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  } else return;
-});
-
-client.on("message", async msg => {
   if (msg.channel.type === "dm") return;
   if (msg.author.bot) return;
-  if (msg.content.length > 10) {
+  if (msg.content.length > 1) {
     if (db.fetch(`capslock_${msg.guild.id}`)) {
       let caps = msg.content.toUpperCase();
       if (msg.content == caps) {
-        if (!msg.member.hasPermission("ADMINISTRATOR")) {
+        if (!msg.member.permissions.has("ADMINISTRATOR")) {
           if (!msg.mentions.users.first()) {
             msg.delete();
-            return msg.channel
-              .send(
-                `✋ ${msg.author}, Bu sunucuda, büyük harf kullanımı engellenmekte!`
-              )
-              .then(m => m.delete(5000));
+            return msg.channel.send(`${msg.member}, sanırım capslock'un açık kalmış.`).then(nordx => nordx.delete({timeout: 5000}))
+              
           }
         }
       }
@@ -870,78 +775,79 @@ client.on("message", message => {
   }
 });
 
-client.on("message", message => {
-  // Datadaki "Reklam Engel" Kısmını Çağıralım
-  let codemarefireklamengel = db.fetch(`linkcodemarefi_${message.guild.id}`);
+//Küfür Engel
+client.on("message", async msg => {
+ 
+ 
+  const i = await db.fetch(`kufur_${msg.guild.id}`)
+     if (i == "acik") {
+         const kufur = ["küfürler","küfürler","küfürler",];
+         if (kufur.some(word => msg.content.includes(word))) {
+           try {
+             if (!msg.member.hasPermission("BAN_MEMBERS")) {
+                   msg.delete();
+                           
+                       return msg.reply('Bu Sunucuda Küfür Filtresi Aktiftir.')
+             }             
+           } catch(err) {
+             console.log(err);
+           }
+         }
+     }
+     if (!i) return;
+ });
+ 
+ client.on("messageUpdate", (oldMessage, newMessage) => {
+  
+  
+  const i = db.fetch(`${oldMessage.guild.id}.kufur`)
+     if (i) {
+         const kufur = ["küfürler","küfürler","küfürler",];
+         if (kufur.some(word => newMessage.content.includes(word))) {
+           try {
+             if (!oldMessage.member.hasPermission("BAN_MEMBERS")) {
+                   oldMessage.delete();
+                           
+                       return oldMessage.reply('Bu Sunucuda Küfür Filtresi Aktiftir.')
+             }             
+           } catch(err) {
+             console.log(err);
+           }
+         }
+     }
+     if (!i) return;
+ });
 
-  // Komutlarımıza Geçelim, Eğer Reklam Engel Sistemi Aktif İse Reklam Yapan Kullanıcıya Uyarı Verelim
-  if (codemarefireklamengel === "codemarefiaktif") {
-    // Reklam Ayarlamaları
-    const codemarefireklamliste = [
-      ".org",
-      ".tr",
-      ".space",
-      ".funy",
-      ".fun",
-      ".com",
-      ".xyz",
-      ".glitch-me",
-      ".eueo.org",
-      "free.biz",
-      ".biz",
-      ".free",
-      ".blogspot-com",
-      ".alan",
-      ".com.tr",
-      ".sexs",
-      ".hub",
-      ".dance",
-      ".in",
-      ".net",
-      ".shop",
-      ".store",
-      ".click",
-      ".tech",
-      ".best",
-      ".college",
-      ".me",
-      ".site",
-      ".online",
-      ".art",
-      ".host",
-      ".baby",
-      ".website",
-      ".blog",
-      ".link",
-      ".top",
-      ".info",
-      ".press",
-      "https",
-      ".monster",
-      ".services"
-    ];
-    if (
-      codemarefireklamliste.some(codemarefi =>
-        message.content.includes(codemarefi)
-      )
-    ) {
-      // Kullanıcının Mesajını Silelim
-      message.delete();
-
-      // Reklam yapan terbiyesize uyarı mesajı atalım ve bu 5 saniye sonra chati kirletmemek açısından silinsin.
-      const reklamyasak = new Discord.MessageEmbed()
-        .setDescription(
-          `${message.author} - **Hey Dostum!. Bu Sunucuda Reklam Yapmana İzin Vermem.**`
-        )
-        .setColor("#36393F");
-      message.channel.send(reklamyasak).then(codemarefisil => {
-        codemarefisil.delete({ timeout: 5000 });
-      });
-    }
-  } else {
-    return;
-  }
-});
+//Reklam Engel
+client.on("message", async msg => {
+  if(msg.author.bot) return;
+  if(msg.channel.type === "dm") return;
+      
+  let i = await db.fetch(`reklamFiltre_${msg.guild.id}`)  
+        if (i == 'acik') {
+            const reklam = ["discord.app", "discord.gg", "invite","discordapp","discordgg", ".com", ".net", ".xyz", ".tk", ".pw", ".io", ".me", ".gg", "www.", "https", "http", ".gl", ".org", ".com.tr", ".biz", ".party", ".rf.gd", ".az",];
+            if (reklam.some(word => msg.content.toLowerCase().includes(word))) {
+              try {
+                if (!msg.member.hasPermission("MANAGE_GUILD")) {
+                  msg.delete();                    
+                  let embed = new Discord.RichEmbed()
+                  .setColor(0xffa300)
+                  .setFooter('$adis BOT  -|-  Reklam engellendi.', client.user.avatarURL)
+                  .setAuthor(msg.guild.owner.user.username, msg.guild.owner.user.avatarURL)
+                  .setDescription("$adis BOT Reklam sistemi, " + `***${msg.guild.name}***` + " adlı sunucunuzda reklam yakaladım.")
+                  .addField('Reklamı yapan kişi', 'Kullanıcı: '+ msg.author.tag +'\nID: '+ msg.author.id, true)
+                  .addField('Engellenen mesaj', msg.content, true)
+                  .setTimestamp()                   
+                  msg.guild.owner.user.send(embed)                       
+                  return msg.channel.send(`${msg.author.tag}, Reklam Yapmak Yasak Lanet Zenci!`).then(msg => msg.delete(25000));
+                }              
+              } catch(err) {
+                console.log(err);
+              }
+            }
+        }
+        if (!i) return;
+        });
 
 client.on("message", message => {
   // Data

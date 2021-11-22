@@ -1,38 +1,47 @@
-const Discord = require("discord.js");
-const db = require("quick.db");
-const ayarlar = require("../ayarlar.json");
+const Discord = require('discord.js');
+const db = require('quick.db')
+const ayarlar = require('../ayarlar.json')
+
 exports.run = async (client, message, args) => {
-  let prefix =
-    (await require("quick.db").fetch(`prefix_${message.guild.id}`)) ||
-    ayarlar.prefix;
+////////
+  if (!message.member.permissions.has("MANAGE_GUILD")) return message.channel.send(`❌ Bu Komutu Kullana Bilmek İçin \`Mesajları Yönet\` Yetkisine Sahip Olmalısın.`)
+///////
 
-  if (message.author.id !== ayarlar.sahip)
-    return message.channel.send(
-      `Capslock engelleme.`
-    );
-  if (!message.member.hasPermission("MANAGE_GUILD"))
-    return message.channel.send(`:fire: Yeterli yetki, bulunmamakta!`);
-
-  let capslock = await db.fetch(`capslock_${message.guild.id}`);
-  if (capslock) {
-    db.delete(`capslock_${message.guild.id}`);
-    message.channel.send(`:fire: Capslock engelleme sistemi, kapatıldı!`);
+///////
+      const prefix = db.fetch(`prefix.${message.guild.id}`) || "-"
+   if (!args[0]) {
+ message.channel.send(`**Örnek Kullanım:** ${prefix}capslock-engel aç/kapat`)
   }
+///////
 
-  if (!capslock) {
-    db.set(`capslock_${message.guild.id}`, "acik");
-    message.channel.send(`:fire: Capslock engelleme sistemi, aktif!`);
-  }
+
+///////
+  if(args[0] === 'aç') {
+    db.set(`capslock_${message.guild.id}`, true)
+    message.channel.send(`Capslock Engel Sistemi Aktif`)
+  return
+}
+///////
+
+
+///////
+if (args[0] === 'kapat') {
+  db.delete(`capslock_${message.guild.id}`)
+message.channel.send(`Capslock Engel Sistemi Devre Dışı`)
+return
+}
+///////
+
+  
 };
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ["capslock-engel"],
-  permLevel: 3
+  aliases: ['capsengel'],
+  permLevel: 0
 };
 exports.help = {
-  name: "capslock-engelleme",
-  category: "Moderasyon komutları!",
-  description: "Capslock kullanımını engeller.",
-  usage: "capslock-engelleme"
+  name: 'capsengel',
+  description: 'capsengel oyş',
+  usage: 'capsengel'
 };

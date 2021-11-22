@@ -31,9 +31,9 @@ exports.run = async (client, message, args) => {
     }).sort((a, b) => b.Total - a.Total);
 
     voiceList = voiceList.length > 10 ? voiceList.splice(0, 10) : voiceList;
-    voiceList = voiceList.map((vd, index)=> `\`${index + 1}.\` ${client.channels.cache.has(vd.Id) ? client.channels.cache.get(vd.Id).toString() : "#deleted-channel"}: \`${moment.duration(vd.Total).format("H [hours,] m [minutes] s [seconds]")}\``).join("\n║");
+    voiceList = voiceList.map((vd, index)=> `\`${index + 1}.\` ${client.channels.cache.has(vd.Id) ? client.channels.cache.get(vd.Id).toString() : "#deleted-channel"}: \`${moment.duration(vd.Total).format("H [hours,] m [minutes] s [seconds]")}\``).join("\n");
     messageList = messageList.length > 10 ? messageList.splice(0, 10) : messageList;
-    messageList = messageList.map((md, index)=> `\`${index + 1}.\` ${client.channels.cache.has(md.Id) ? client.channels.cache.get(md.Id).toString() : "#deleted-channel"}: \`${md.Total} message\``).join("\n║");
+    messageList = messageList.map((md, index)=> `\`${index + 1}.\` ${client.channels.cache.has(md.Id) ? client.channels.cache.get(md.Id).toString() : "#deleted-channel"}: \`${md.Total} message\``).join("\n");
     let embed = new Discord.MessageEmbed();
       embed.setColor('RANDOM')
     .setFooter('Rozy')
